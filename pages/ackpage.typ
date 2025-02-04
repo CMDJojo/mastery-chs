@@ -1,8 +1,11 @@
 #let ackpage(date, authors, acknowledgements) = [
+  #v(20pt)
+  #show heading: set text(size: 17pt)
   #heading(outlined: false)[Acknowledgements]
+  #v(8pt)
   #acknowledgements
-  #v(30pt)
+  #v(56pt)
   #align(right)[
-    #authors.join(", "), Gothenburg, #date.display()
+    #authors.join(" and "), Gothenburg, #date.display()
   ]
 ]
