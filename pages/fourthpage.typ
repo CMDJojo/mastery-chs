@@ -1,26 +1,26 @@
 #import "lib.typ" : join
 #import "../font-sizes.typ" : *
 
-#let fourthpage(school, year, title, subtitle, authors, department, supervisor, examiner) = {
-  grid(rows: (1fr, auto),
-    {
-      let vv = v(1cm)
-      v(4.5cm)
+#let fourthpage(school, year, title, subtitle, authors, department, supervisor, advisor, examiner) = {
+  grid(rows: (1fr, auto), {
+      let vv = v(0.8cm)
+      v(6cm)
       [
         #title\
         #subtitle\
-        #smallcaps(authors.join[\ ])
+        #upper(authors.join[\ ])
       ]
       vv
       [
-        #sym.copyright #authors.join(", "), #year
+        #sym.copyright #upper(authors.join(", ")), #year
       ]
       vv
       grid(
-        columns: (auto, auto, auto),
+        columns: (auto),
         gutter: 6pt,
-        "Supervisor:", [#supervisor.at(0),], supervisor.at(1),
-        "Examiner:", [#examiner.at(0),], examiner.at(1)
+        [Supervisor: #supervisor.at(0), #supervisor.at(1)],
+        [Advisor: #advisor.at(0), #advisor.at(1)],
+        [Examiner: #examiner.at(0), #examiner.at(1)],
       )
       vv
       [

@@ -38,8 +38,13 @@
     let prevsel = selector(heading.where(level: 1)).before(here())
     let prevheaders = query(prevsel)
     if prevheaders.len() > 0 {
-      text(counter(heading).get().at(0), prevheaders.last().body)
-      line(length: 100%)
+      if counter(heading).get().at(0) == 0 {
+        prevheaders.last().body
+      } else {
+        text(counter(heading).get().at(0), prevheaders.last().body)
+      }
+      v(-0.8em)
+      line(length: 100%, stroke: black + 0.3pt)
     }
   }
 }
@@ -51,7 +56,7 @@
 ///
 /// Note: You most likely want to use the `template` function in a `show` rule
 /// instead, which sets the style as well
-#let pages(school, date, title, subtitle, authors, department, subject, supervisor, examiner, abstract, keywords, acknowledgements, figures, tables) = {
+#let pages(school, date, title, subtitle, authors, department, subject, supervisor, advisor, examiner, abstract, keywords, acknowledgements, figures, tables) = {
   let blankpagebreak(..args) = {
     set page(footer: none)
     pagebreak(..args)
@@ -67,7 +72,7 @@
   // fourth page (inside cover page)
   pagebreak(to: "even")
   set page(footer: footer("i"))
-  fourthpage(school, date.year(), title, subtitle, authors, department, supervisor, examiner)
+  fourthpage(school, date.year(), title, subtitle, authors, department, supervisor, advisor, examiner)
 
   // abstract page
   abspage(school, title, subtitle, authors, department, abstract, keywords)
@@ -80,7 +85,8 @@
   blankpagebreak(to: "odd")
   set page(
     footer: footer("i"),
-    header: header(text: (idx, body) => body)
+    header: header(text: (idx, body) => body),
+    header-ascent: 10%,
   )
   tocpage(figures, tables)
 
@@ -102,7 +108,6 @@
 /// ```
 ///
 /// The arguments supported are:
-/// - `font-size`: The default font size (default: 12pt)
 /// - `school`: One or multiple universities (a string or array)
 /// - `date`: The date of the thesis (default: today)
 /// - `title`: The title of the thesis
@@ -138,37 +143,48 @@
 /// function puts top-level headings (chapters) on a new odd page, adds headings
 /// to non-chapter pages, and adds a footer to all pages
 #let template(
-  font-size: 12pt,
-  school: "Chalmers University of Technology",
+  school: ("Chalmers University of Technology", "University of Gothenburg"),
   date: datetime.today(),
-  title: "My Thesis Title",
-  subtitle: "My Thesis Subtitle",
-  authors: ("Author 1", "Author 2"),
-  department: "Department of Tech",
-  subject: "Science",
-  supervisor: ("Mr Supervisor", "Department"),
-  examiner: ("Mr Examiner", "Department"),
-  abstract: [My abstract goes here],
+  title: "A Chalmers University of Technology Master's thesis template for typst",
+  subtitle: "A Subtitle that can be Very Much Longer if Necessary",
+  authors: ("Name Familyname 1", "Name Familyname 2"),
+  department: "Department of Computer Science and Engineering",
+  subject: "Computer science and engineering",
+  supervisor: ("Supervisor Supervisorsson", "Department"),
+  advisor: ("Advisor Advisorsson", "Department"),
+  examiner: ("Examiner Examinersson", "Department"),
+  abstract: [Abstract text about your project in Computer Science and Engineering],
   keywords: ("Keyword 1", "keyword 2"),
-  acknowledgements: [My acknowledgements goes here],
+  acknowledgements: [Here, you can say thank you to your supervisor(s), company advisors and other
+  people that supported you during your project.],
   figures: true,
   tables: true,
   content
 ) = {
-  set text(font-size)
   set page(
     footer: none,
     numbering: "i"
   )
+  set text(size: 12pt, font: "New Computer Modern")
+
+  show heading: set text(weight: "semibold")
+
+  show heading.where(level: 1): set text(size: 20pt)
+  show heading.where(level: 2): set text(size: 16pt)
+  show heading.where(level: 3): set text(size: 14pt)
+  show heading.where(level: 4): set text(size: 12pt)
+
 
   // prelude pages
-  pages(school, date, title, subtitle, authors, department, subject, supervisor, examiner, abstract, keywords, acknowledgements, figures, tables)
+  pages(school, date, title, subtitle, authors, department, subject, supervisor, advisor, examiner, abstract, keywords, acknowledgements, figures, tables)
+
 
   // default page style
   set page(
     footer: footer("1"),
     header: header(),
-    numbering: "1"
+    numbering: "1",
+    header-ascent: 10%,
   )
 
   // Make the "Figure/Table" text in captions bold and left align wider captions
@@ -176,7 +192,7 @@
     align(left)[
       #text(weight: "bold")[
         #it.supplement
-        #context it.counter.display(it.numbering) 
+        #context it.counter.display(it.numbering)
       ]
       #it.separator#it.body
     ]
@@ -190,15 +206,31 @@
   set heading(numbering: "1.1")
   counter(heading).update(0)
 
-  show heading.where(level: 1): it => context {
-    pagebreak(to: "odd", weak: true)
-    align(center, {
-      v(30pt)
-      text(64pt, weight: "regular", str(counter(heading).get().at(0)))
-      v(-30pt)
-      text(38pt, it.body)
-      v(20pt)
-    })
+  show heading: it => {
+    if it.level == 1 {
+      pagebreak(to: "odd", weak: true)
+      align(center, {
+        v(38pt)
+        text(50pt, weight: "regular", str(counter(heading).display()))
+        v(-30pt)
+        text(24pt, it.body)
+        v(30pt)
+      })
+    } else {
+      [#counter(heading).display() #h(text.size) #it.body]
+    }
+  }
+
+  show bibliography: it => {
+    show heading: it => {
+      pagebreak(to: "odd", weak: true)
+      align(center, {
+        v(100pt)
+        text(24pt, it.body)
+        v(30pt)
+      })
+    }
+    it
   }
 
   content

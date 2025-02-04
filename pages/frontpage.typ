@@ -3,35 +3,44 @@
 
 #let frontpage(school, year, title, subtitle, names, department, subject) = {
   let bg = block(
-    inset: (left: 8.5%, right: 8.5%, top: 40pt, bottom: 30pt),
+    inset: (left: 60pt, right: 10pt, top: 44pt, bottom: 30pt),
     grid(
       rows: (auto, 1fr, auto),
       {
         image("../img/logos-horizontal.jpg")
+        v(1em)
         line(length: 100%, stroke: black + 1pt)
       },
       none,
       {
         line(length: 100%, stroke: black + 1pt)
-        align(left)[
+        align(left, par(leading: 0.45em)[
           #department\
           #smallcaps(join(school, [\ ]))\
           Gothenburg, Sweden, #year
-        ]
+        ])
       }
     )
   )
 
-  set page(background: bg, margin: 50pt)
-  set text(font: "Libertinus Serif")
-  v(6.969420%)
-  align(center + horizon)[
-    #huge(weight: "bold", title)
+  set page(background: bg, margin: 65pt)
+  set text(font: "New Computer Modern Sans")
+
+  [
+    #v(58.5%)
+
+    #huge(weight: "bold", par(leading: 0.45em, title))
+
+    #v(8pt)
 
     #x-large(subtitle)
 
+    #v(22pt)
+
     Master's Thesis in #subject
 
-    #smallcaps(x-large(names))
+    #v(14pt)
+
+    #upper(x-large(names))
   ]
 }
