@@ -1,3 +1,7 @@
+#let in-outline = state("in-outline", false)
+
+#let flex-caption(short, long) = context if in-outline.get() { short } else { short + long }
+
 #let tocpage(figures, tables) = {
   set page(numbering: "i")
 
@@ -8,8 +12,13 @@
 
   v(55pt)
 
+  show outline.entry: set outline.entry(fill: repeat("." + h(6pt)))
+  show outline: it => {
+    in-outline.update(true)
+    it
+    in-outline.update(false)
+  }
   {
-    show outline.entry: set outline.entry(fill: repeat("." + h(6pt)))
     show outline.entry.where(level: 1): set outline.entry(fill: none)
     show outline.entry.where(level: 1): it => {
       v(8pt)
