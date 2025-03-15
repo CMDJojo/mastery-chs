@@ -3,7 +3,7 @@
 #import "pages/fourthpage.typ" : fourthpage
 #import "pages/abspage.typ" : abspage
 #import "pages/ackpage.typ" : ackpage
-#import "pages/tocpage.typ" : tocpage
+#import "pages/tocpage.typ" : tocpage, flex-caption
 #import "font-sizes.typ"
 
 /// Creates a footer which displays the page counter with the given args, at the
