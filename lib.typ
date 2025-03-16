@@ -96,7 +96,11 @@
 }
 
 #let appendices(content) = {
-  set page(header: header(numbering: (i) => numbering("A", i)))
+  set page(
+    footer: footer("I"),
+    header: header(numbering: (i) => numbering("A", i))
+  )
+  counter(page).update(1)
   counter(heading).update(0)
   set heading(numbering: "A.1", supplement: [Appendix])
 
