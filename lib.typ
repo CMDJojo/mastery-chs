@@ -98,7 +98,8 @@
 #let appendices(content) = {
   set page(
     footer: footer("I"),
-    header: header(numbering: (i) => numbering("A", i))
+    header: header(numbering: (i) => numbering("A", i)),
+    numbering: "I",
   )
   counter(page).update(1)
   counter(heading).update(0)
