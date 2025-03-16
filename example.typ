@@ -1,5 +1,5 @@
 //#import "mastery-chs/lib.typ" : template
-#import "lib.typ" : template
+#import "lib.typ" : template, appendices
 
 #show: template.with(
 // Override defaults fields here, such as title, authors, etc
@@ -16,8 +16,7 @@ A reference @typst.
 ==== Subsubsubsection
 
 #bibliography("example-refs.bib")
-#counter(heading).update(0)
-#set heading(numbering: "A.1", supplement: [Appendix])
+#show: appendices
 
 = Some appendix here <theappendix>
 
