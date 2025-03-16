@@ -7,7 +7,7 @@
   align(center + horizon,
     grid(
       rows: (auto, 1fr, auto),
-      large(smallcaps[Master's Thesis 2025]),
+      large(smallcaps[Master's thesis 2025]),
       {
         v(20pt)
         x-large(weight: "semibold", title)

@@ -37,7 +37,7 @@
 
     #v(22pt)
 
-    Master's Thesis in #subject
+    Master's thesis in #subject
 
     #v(14pt)
 
