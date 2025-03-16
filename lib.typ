@@ -21,7 +21,7 @@
 /// #import "@preview/mastery-chs:0.1.0" : header
 /// #set page(header: header(text: (idx, name) => [Chapter #idx: #name]))
 /// ```
-#let header(text: (idx, name) => [#idx. #name]) = context {
+#let header(numbering: (x) => x, text: (idx, name) => [#idx. #name]) = context {
   // check if the next title page is this page
   let nextsel = selector(heading.where(level: 1)).after(here())
   let nextheaders = query(nextsel)
@@ -41,7 +41,7 @@
       if counter(heading).get().at(0) == 0 {
         prevheaders.last().body
       } else {
-        text(counter(heading).get().at(0), prevheaders.last().body)
+        text(numbering(counter(heading).get().at(0)), prevheaders.last().body)
       }
       v(-0.8em)
       line(length: 100%, stroke: black + 0.3pt)
@@ -93,6 +93,14 @@
   // skip to next odd page, reset page counter
   pagebreak(to: "odd")
   counter(page).update(1)
+}
+
+#let appendices(content) = {
+  set page(header: header(numbering: (i) => numbering("A", i)))
+  counter(heading).update(0)
+  set heading(numbering: "A.1", supplement: [Appendix])
+
+  content
 }
 
 /// Instantiates the Chalmers University of Technology template. Should be used
@@ -224,6 +232,7 @@
   show bibliography: it => {
     show heading: it => {
       pagebreak(to: "odd", weak: true)
+      counter(heading).update(0)
       align(center, {
         v(100pt)
         text(24pt, it.body)

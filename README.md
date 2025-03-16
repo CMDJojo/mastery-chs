@@ -10,8 +10,8 @@ not a 100% faithful one.
 
 Example usage:
 
-```
-#import "@preview/mastery-chs:0.1.0" : template
+```typst
+#import "@preview/mastery-chs:0.1.0" : template, appendices, flex-caption
 #let department = "Department of Computer Science and Engineering"
 #show: template.with(
   school: ("Chalmers University of Technology", "University of Gothenburg"),
@@ -25,6 +25,17 @@ Example usage:
 )
 
 = Introduction
-...
 
+#figure(
+  image("my_figure.svg", width: 75%),
+  caption: flex-caption(
+    [Short caption used in list of figures.],
+    [Additional elaboration on the caption presented inline with the figure.],
+  ),
+)
+
+#bibliography("refs.bib")
+#show: appendices
+
+= Some appendix
 ```
