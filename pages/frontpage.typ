@@ -1,9 +1,14 @@
 #import "lib.typ" : join
 #import "../font-sizes.typ" : *
 
-#let frontpage(school, year, title, subtitle, names, department, subject) = {
+#let frontpage(faithful, title-font, school, year, title, subtitle, names, department, subject) = {
+  let inset = if faithful {
+    (left: 60pt, right: 10pt, top: 44pt, bottom: 30pt)
+  } else {
+    (left: 60pt, right: 60pt, top: 44pt, bottom: 30pt)
+  }
   let bg = block(
-    inset: (left: 60pt, right: 10pt, top: 44pt, bottom: 30pt),
+    inset: inset,
     grid(
       rows: (auto, 1fr, auto),
       {
@@ -24,7 +29,7 @@
   )
 
   set page(background: bg, margin: 65pt)
-  set text(font: "New Computer Modern Sans")
+  set text(font: title-font)
 
   [
     #v(58.5%)
@@ -41,6 +46,10 @@
 
     #v(14pt)
 
-    #upper(x-large(names))
+    #if faithful {
+      upper(x-large(names))
+    } else {
+      smallcaps(x-large(names))
+    }
   ]
 }

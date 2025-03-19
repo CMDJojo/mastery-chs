@@ -56,14 +56,14 @@
 ///
 /// Note: You most likely want to use the `template` function in a `show` rule
 /// instead, which sets the style as well
-#let pages(faith, school, date, title, subtitle, authors, department, subject, supervisor, advisor, examiner, abstract, keywords, acknowledgements, figures, tables) = {
+#let pages(faith, title-font, school, date, title, subtitle, authors, department, subject, supervisor, advisor, examiner, abstract, keywords, acknowledgements, figures, tables) = {
   let blankpagebreak(..args) = {
     set page(footer: none)
     pagebreak(..args)
   }
 
   // first page
-  frontpage(school, date.year(), title, subtitle, authors.join([\ ]), department, subject)
+  frontpage(faith, title-font, school, date.year(), title, subtitle, authors.join([\ ]), department, subject)
 
   // third page (cover page)
   pagebreak(to: "odd")
@@ -156,6 +156,8 @@
 /// function puts top-level headings (chapters) on a new odd page, adds headings
 /// to non-chapter pages, and adds a footer to all pages
 #let template(
+  font: "New Computer Modern",
+  title-font: "New Computer Modern Sans",
   extra-faithful: false,
   school: ("Chalmers University of Technology", "University of Gothenburg"),
   date: datetime.today(),
@@ -179,7 +181,7 @@
     footer: none,
     numbering: "i"
   )
-  set text(size: 12pt, font: "New Computer Modern")
+  set text(size: 12pt, font: font)
 
   show heading: set text(weight: "semibold")
 
@@ -190,7 +192,7 @@
 
 
   // prelude pages
-  pages(extra-faithful, school, date, title, subtitle, authors, department, subject, supervisor, advisor, examiner, abstract, keywords, acknowledgements, figures, tables)
+  pages(extra-faithful, title-font, school, date, title, subtitle, authors, department, subject, supervisor, advisor, examiner, abstract, keywords, acknowledgements, figures, tables)
 
 
   // default page style
