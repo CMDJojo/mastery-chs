@@ -67,7 +67,7 @@
 
   // third page (cover page)
   pagebreak(to: "odd")
-  thirdpage(school, date.year(), title, subtitle, authors.join([\ ]), department)
+  thirdpage(faith, school, date.year(), title, subtitle, authors.join([\ ]), department)
 
   // fourth page (inside cover page)
   pagebreak(to: "even")
@@ -75,7 +75,7 @@
   fourthpage(faith, school, date.year(), title, subtitle, authors, department, supervisor, advisor, examiner)
 
   // abstract page
-  abspage(school, title, subtitle, authors, department, abstract, keywords)
+  abspage(faith, school, title, subtitle, authors, department, abstract, keywords)
 
   // acknowledgement page
   blankpagebreak(to: "odd")
