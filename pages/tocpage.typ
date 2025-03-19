@@ -1,6 +1,6 @@
 #let in-outline = state("in-outline", false)
 
-#let flex-caption(short, long) = context if in-outline.get() { short } else { short + long }
+#let flex-caption(short, long) = context if in-outline.get() { short } else { long }
 
 #let tocpage(figures, tables) = {
   set page(numbering: "i")
