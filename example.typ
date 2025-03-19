@@ -1,8 +1,9 @@
-//#import "mastery-chs/lib.typ" : template
 #import "lib.typ" : template, appendices
 
 #show: template.with(
-// Override defaults fields here, such as title, authors, etc
+  // Override defaults fields here, such as title, authors, etc
+  // extra-faithful: true // if you want extra faithful mode
+  advisor: none
 )
 
 = Some title here

@@ -56,7 +56,7 @@
 ///
 /// Note: You most likely want to use the `template` function in a `show` rule
 /// instead, which sets the style as well
-#let pages(school, date, title, subtitle, authors, department, subject, supervisor, advisor, examiner, abstract, keywords, acknowledgements, figures, tables) = {
+#let pages(faith, school, date, title, subtitle, authors, department, subject, supervisor, advisor, examiner, abstract, keywords, acknowledgements, figures, tables) = {
   let blankpagebreak(..args) = {
     set page(footer: none)
     pagebreak(..args)
@@ -72,7 +72,7 @@
   // fourth page (inside cover page)
   pagebreak(to: "even")
   set page(footer: footer("i"))
-  fourthpage(school, date.year(), title, subtitle, authors, department, supervisor, advisor, examiner)
+  fourthpage(faith, school, date.year(), title, subtitle, authors, department, supervisor, advisor, examiner)
 
   // abstract page
   abspage(school, title, subtitle, authors, department, abstract, keywords)
@@ -156,6 +156,7 @@
 /// function puts top-level headings (chapters) on a new odd page, adds headings
 /// to non-chapter pages, and adds a footer to all pages
 #let template(
+  extra-faithful: false,
   school: ("Chalmers University of Technology", "University of Gothenburg"),
   date: datetime.today(),
   title: "A Chalmers University of Technology Master's thesis template for typst",
@@ -189,7 +190,7 @@
 
 
   // prelude pages
-  pages(school, date, title, subtitle, authors, department, subject, supervisor, advisor, examiner, abstract, keywords, acknowledgements, figures, tables)
+  pages(extra-faithful, school, date, title, subtitle, authors, department, subject, supervisor, advisor, examiner, abstract, keywords, acknowledgements, figures, tables)
 
 
   // default page style

@@ -1,27 +1,43 @@
 #import "lib.typ" : join
 #import "../font-sizes.typ" : *
 
-#let fourthpage(school, year, title, subtitle, authors, department, supervisor, advisor, examiner) = {
+#let fourthpage(faith, school, year, title, subtitle, authors, department, supervisor, advisor, examiner) = {
   grid(rows: (1fr, auto), {
+      let fmt-auth = if faith {
+        upper
+      } else {
+        smallcaps
+      }
       let vv = v(0.8cm)
       v(6cm)
       [
         #title\
         #subtitle\
-        #upper(authors.join[\ ])
+        #fmt-auth(authors.join[\ ])
       ]
       vv
       [
-        #sym.copyright #upper(authors.join(", ")), #year
+        #sym.copyright #fmt-auth(authors.join(", ")), #year
       ]
       vv
-      grid(
-        columns: (auto),
-        gutter: 6pt,
-        [Supervisor: #supervisor.at(0), #supervisor.at(1)],
-        [Advisor: #advisor.at(0), #advisor.at(1)],
-        [Examiner: #examiner.at(0), #examiner.at(1)],
-      )
+      let items = (
+        ([Supervisor:], supervisor),
+        ([Advisor:], advisor),
+        ([Examiner:], examiner)
+      ).filter(it => it.at(1) != none)
+      if faith {
+        grid(
+          columns: (auto),
+          gutter: 6pt,
+          ..items.map(it => [#it.at(0) #it.at(1).at(0), #it.at(1).at(1)])
+        )
+      } else {
+        grid(
+            columns: (auto, auto, auto),
+            gutter: 6pt,
+            ..items.map(it => (it.at(0), [#it.at(1).at(0),], it.at(1).at(1))).flatten()
+          )
+      }
       vv
       [
         Master's Thesis #year\
